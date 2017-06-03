@@ -40,28 +40,28 @@ console.log('cookieParser');
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
-// app.use(session({
-//   secret: process.env.SECRET,
-//   key: process.env.KEY,
-//   resave: false,
-//   saveUninitialized: false,
-//   store: new MongoStore({ mongooseConnection: mongoose.connection })
-// }));
-// console.log('mongoose');
+app.use(session({
+  secret: process.env.SECRET,
+  key: process.env.KEY,
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+console.log('mongoose');
 
-// // Passport JS is what we use to handle our logins
-// app.use(passport.initialize());
-// app.use(passport.session());
-// console.log('passport');
+// Passport JS is what we use to handle our logins
+app.use(passport.initialize());
+app.use(passport.session());
+console.log('passport');
 
-// // // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
-// app.use(flash());
-// console.log('flash');
+// // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
+app.use(flash());
+console.log('flash');
 
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
   res.locals.h = helpers;
-  // res.locals.flashes = req.flash();
+  res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path !== undefined ? req.path : '';
   next();
